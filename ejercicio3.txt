@@ -21,4 +21,8 @@ context Airport inv: arrivingFlight->notEmpty()
 ó
 context Airport inv: arrivingFlight->size() > 0
 //i. De todo aeropuerto sale al menos un vuelo con duración menor de 4 horas.
-
+context Airport inv: self.departinFlight->exist(v Flight | v.duration < 4)
+ó
+Usando select
+//j. De todo aeropuerto sale al menos un vuelo después de las 6.
+Similar al anterior.
