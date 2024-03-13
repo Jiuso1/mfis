@@ -1,0 +1,24 @@
+//a. Todos los vuelos deben tener una duración menor de 4 horas.
+context Flight inv: self.duration < 4
+//b. El número máximo de pasajeros de un vuelo tiene que ser menor de 300.
+context Flight inv: self.maxNrPassengers < 300
+ó
+context Flight inv: self.passengers->size() < 300
+//c. Todos los pasajeros de un vuelo tienen que ser mayores que la edad mínima exigida en ese vuelo.
+context Passenger inv: self.allInstances()->forAll(p1.Passenger | p1.edad >= edadMinima)
+ó
+context Passenger inv: self.passengers->->forAll(p1.Passenger | p1.edad >= edadMinima)
+//d. La duración de un vuelo indicada en el atributo tiene que coincidir con la diferencia entre la hora de salida y la hora de llegada.
+context Flight inv: self.duration = self.llegada - self.salida
+//e. El aeropuerto de salida debe de ser distinto al aeropuerto de llegada.
+context Flight inv: self.origin.name <> self.destination.name
+//f. Los vuelos que salgan del aeropuerto de Málaga tienen que ser de la compañía Iberia.
+context Flight inv: self.origin.name = 'Malaga' implies self.airline.name = 'Iberia'
+//g. El número de pasajeros en un vuelo tiene que ser menor o igual que la capacidad del vuelo.
+...
+//h. El conjunto de vuelos que llegan a un aeropuerto no puede ser vacío.
+context Airport inv: arrivingFlight->notEmpty()
+ó
+context Airport inv: arrivingFlight->size() > 0
+//i. De todo aeropuerto sale al menos un vuelo con duración menor de 4 horas.
+
